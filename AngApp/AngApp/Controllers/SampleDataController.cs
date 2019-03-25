@@ -89,6 +89,13 @@ namespace AngApp.Controllers
                 db.Products.Remove(product);
                 db.SaveChanges();
             }
+            List<Relation> relations = db.Relations.Where(x => x.ProductId == id).ToList();
+            int count = relations.Count;
+            for(int j=0;j<relations.Count;j++)
+            {
+                db.Relations.Remove(relations[j]);
+                db.SaveChanges();
+            }
             return Ok(product);
         }
 
