@@ -1,0 +1,84 @@
+<h1>Phones catalog</h1>
+<p>This component demonstrates fetching data from the server.</p>
+
+<p *ngIf="!products"><em>Loading...</em></p>
+<input type="button" value="Add" class="btn btn-default" (click)="add()" />
+
+<table *ngIf="tableMode; else create" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Designer</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let _product of products">
+      <ng-template [ngIf]="product?.id != _product.id" [ngIfElse]="edit">
+        <td>{{ _product.name }}</td>
+        <td>{{ _product.designer }}</td>
+        <td>{{ _product.cost }}</td>
+        <td>
+          <div class="pretty p-icon p-round p-smooth p-plain">
+
+            <input type="checkbox" [checked]="compareProducts(_product.id)" (click)="check(_product.id, _product.name)" />
+
+            <div class="state p-warning-o">
+              <i class="icon mdi mdi-star"></i>
+              <label> Favorite</label>
+            </div>
+
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="editProduct(_product)">Customize</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(_product)">Delete</button>
+        </td>
+        <!--<td>{{ _product.about }}</td>-->
+      </ng-template>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #edit>
+  <td>
+    <input type="text" [(ngModel)]="product.name" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="product.designer" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="product.cost" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="product.about" class="form-control" />
+  </td>
+  <td>
+    <input type="button" value="Save" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-sm btn-warning" />
+  </td>
+</ng-template>
+
+
+<ng-template #create>
+  <div class="form-group">
+    <label>Model</label>
+    <input type="text" [(ngModel)]="product.name" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Designer</label>
+    <input type="text" [(ngModel)]="product.designer" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input type="text" [(ngModel)]="product.cost" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Info</label>
+    <input type="text" [(ngModel)]="product.about" class="form-control" />
+  </div>
+  <div>
+    <input type="button" value="Save" (click)="save()" class="btn btn-success" />
+    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+  </div>
+</ng-template>
