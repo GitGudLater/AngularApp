@@ -53,6 +53,7 @@ namespace AngApp.Controllers
                 Relation product = db.Relations.FirstOrDefault(x => x.ProductId == relation.ProductId && x.UserName == username && x.Checked == true);
                 db.Relations.Remove(product);
                 db.SaveChanges();
+                return Ok(relation);
             }
             Relation dbrelationmodel = new Relation() { ProductId = relation.ProductId, Checked = true, UserName = User.Identity.Name };
             db.Relations.Add(dbrelationmodel);
