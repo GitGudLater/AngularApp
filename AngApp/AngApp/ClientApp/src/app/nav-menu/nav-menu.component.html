@@ -37,6 +37,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> Add user
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/app-chosen-products"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Chosen products
+              </a>
+            </li>
           </ul>
         </div>
     </div>

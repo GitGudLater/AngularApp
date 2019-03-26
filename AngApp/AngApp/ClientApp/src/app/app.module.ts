@@ -15,6 +15,9 @@ import { AccountComponent } from './account/account.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountService } from './account/account.service';
 import { RegisterService } from './register/register.service';
+import { ChosenProductsComponent } from './chosen-products/chosen-products.component';
+import { ChosenService } from './chosen-products/chosen.service';
+
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import { RegisterService } from './register/register.service';
     CounterComponent,
     FetchDataComponent,
     AccountComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChosenProductsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,9 +41,11 @@ import { RegisterService } from './register/register.service';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'app-account', component: AccountComponent },
       { path: 'app-register', component: RegisterComponent },
+      { path: 'app-chosen-products', component: ChosenProductsComponent },
+
     ])
   ],
-  providers: [DataService, AccountService, RegisterService, RelationService],
+  providers: [DataService, AccountService, RegisterService, RelationService, ChosenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

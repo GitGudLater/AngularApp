@@ -26,11 +26,6 @@ namespace AngApp.Controllers
             }
         }
 
-        /*private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };*/
-
         //[Authorize]
         [HttpGet]
         public IEnumerable<Product> Get()
@@ -99,19 +94,6 @@ namespace AngApp.Controllers
             return Ok(product);
         }
 
-        /*public class WeatherForecast
-        {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
-        }*/
     }
 }
