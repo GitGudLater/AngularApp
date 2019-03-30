@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using AngApp.Models;
+using AngApp.EntityModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AngApp
@@ -24,8 +25,11 @@ namespace AngApp
         public void ConfigureServices(IServiceCollection services)
         {
 
-            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=angappdb;Trusted_Connection=True;";
-            services.AddDbContext<FullContext>(options => options.UseSqlServer(connectionString));
+            string firstconnectionString = "Server=(localdb)\\mssqllocaldb;Database=angappdb;Trusted_Connection=True;";
+            services.AddDbContext<Models.FullContext>(options => options.UseSqlServer(firstconnectionString));
+
+            string secondconnectionString = "Server=(localdb)\\mssqllocaldb;Database=angappdb;Trusted_Connection=True;";
+            services.AddDbContext<EntityModels.FullContext>(options => options.UseSqlServer(secondconnectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
