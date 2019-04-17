@@ -29,14 +29,12 @@
     <None Remove="ClientApp\src\app\account\account.service.ts" />
     <None Remove="ClientApp\src\app\fetch-data\data.service.ts" />
     <None Remove="ClientApp\src\app\fetch-data\identification.service.ts" />
-    <None Remove="ClientApp\src\app\register\register.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\account\account.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\fetch-data\data.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\fetch-data\identification.service.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\register\register.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -20,9 +20,18 @@ export class AccountService {
     this.http.post(this.url + '/' + logout, logout).toPromise();
   }
 
+  putLog(reg: Register) {
+    this.http.put(this.url, reg).toPromise();
+  }
 }
 
 interface Logg {
   email: string;
   password: string;
+}
+
+interface Register {
+  email: string;
+  password: string;
+  confirmPassword: string;
 }

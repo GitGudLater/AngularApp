@@ -12,9 +12,18 @@ export class AccountComponent implements OnInit {
 
   public account: Logg = new Logg;
 
+  public regAccount: Register = new Register;
+
+  registration: boolean = false;
+
+
   constructor(private loggService: AccountService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { }
 
   ngOnInit() {
+  }
+
+  toggleRegistrator() {
+    this.registration = !this.registration;
   }
 
   dislog() {
@@ -25,9 +34,19 @@ export class AccountComponent implements OnInit {
     this.loggService.postLog(this.account);
   }
 
+  putReg() {
+    this.loggService.putLog(this.regAccount);
+  }
+
 }
 
 export class Logg {
   public email: string;
   public password: string;
+}
+
+export class Register {
+  public email: string;
+  public password: string;
+  public confirmPassword: string;
 }

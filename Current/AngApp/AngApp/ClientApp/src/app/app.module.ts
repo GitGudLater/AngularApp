@@ -11,9 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DataService } from './fetch-data/data.service';
 import { AccountComponent } from './account/account.component';
-import { RegisterComponent } from './register/register.component';
 import { AccountService } from './account/account.service';
-import { RegisterService } from './register/register.service';
 import { IdentificationService } from './fetch-data/identification.service';
 
 
@@ -26,7 +24,6 @@ import { IdentificationService } from './fetch-data/identification.service';
     CounterComponent,
     FetchDataComponent,
     AccountComponent,
-    RegisterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,10 +34,9 @@ import { IdentificationService } from './fetch-data/identification.service';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'app-account', component: AccountComponent },
-      { path: 'app-register', component: RegisterComponent },
     ])
   ],
-  providers: [DataService, AccountService, RegisterService, IdentificationService],
+  providers: [DataService, AccountService, IdentificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
