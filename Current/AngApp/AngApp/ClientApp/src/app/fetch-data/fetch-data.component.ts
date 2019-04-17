@@ -12,9 +12,6 @@ export class FetchDataComponent {
   public product: Products;   // изменяемый товар
   public products: Products[];
 
-  public productPositions: number[];
-  public iterator: number = 0;
-
   tableMode: boolean = true;
   personal: boolean = false;
   userSigned: boolean = false;
@@ -55,7 +52,7 @@ export class FetchDataComponent {
   }
 
   toggle(id: number, p: Products) {
-    if (id < (this.products.length / 2)) {
+   /* if (id < (this.products.length / 2)) {
       for (var i: number = 0; i < this.products.length; i++) {
         if (this.products[i].id == id) {
           this.products[i].favourite = !this.products[i].favourite;
@@ -72,17 +69,17 @@ export class FetchDataComponent {
           break;
         }
       }
-    }
-
+    }*/
     this.dataService.markProduct(id, p);
+    this.dataService.getProducts(this.personal);
   }
   // получаем данные через сервис
   loadProducts() {
     this.dataService.getProducts(this.personal)
       .subscribe((data: Products[]) => this.products = data);
-    for (var i: number = 0; i < this.products.length; i++) {
+    /*for (var i: number = 0; i < this.products.length; i++) {
       this.productPositions[i] = i;
-    }
+    }*/
   }
   // сохранение данных
   save() {
