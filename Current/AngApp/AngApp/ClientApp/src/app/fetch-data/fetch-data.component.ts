@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-fetch-data',
@@ -10,6 +11,10 @@ import { DataService } from './data.service';
 export class FetchDataComponent {
   public product: Products;   // изменяемый товар
   public products: Products[];
+
+  public productPositions: number[];
+  public iterator: number = 0;
+
   tableMode: boolean = true;
   personal: boolean = false;
   userSigned: boolean = false;
@@ -50,18 +55,34 @@ export class FetchDataComponent {
   }
 
   toggle(id: number, p: Products) {
-    for (var i: number = 0; i < this.products.length; i++) {
-      if (this.products[i].id == id) {
-        this.products[i].favourite = !this.products[i].favourite;
-        break;
+    if (id < (this.products.length / 2)) {
+      for (var i: number = 0; i < this.products.length; i++) {
+        if (this.products[i].id == id) {
+          this.products[i].favourite = !this.products[i].favourite;
+          break;
+          //var object = forEach    Реализовать через форич
+          //var object = this.products.find((_product: Products) => _product.id == id);
+        }
       }
     }
+    else {
+      for (var i: number = this.products.length-1; i >= 0; i--) {
+        if (this.products[i].id == id) {
+          this.products[i].favourite = !this.products[i].favourite;
+          break;
+        }
+      }
+    }
+
     this.dataService.markProduct(id, p);
   }
   // получаем данные через сервис
   loadProducts() {
     this.dataService.getProducts(this.personal)
       .subscribe((data: Products[]) => this.products = data);
+    for (var i: number = 0; i < this.products.length; i++) {
+      this.productPositions[i] = i;
+    }
   }
   // сохранение данных
   save() {
