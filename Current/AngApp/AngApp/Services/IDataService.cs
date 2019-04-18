@@ -15,7 +15,7 @@ namespace AngApp.Services
 
         void Add(AddPhoneDto viewproduct);
 
-        void Change(PhoneDto viewproduct);
+        void Change(ChangePhoneDto viewproduct);
 
         void Delete(int id);
     }

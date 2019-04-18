@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { IdentificationService } from './identification.service';
 
 @Injectable()
 export class DataService {
@@ -9,14 +8,11 @@ export class DataService {
   private url = "api/Data";
 
 
-  constructor(private identificationService:IdentificationService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor( private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + "api/Data";
   }
 
-  getUser() {
-    return this.identificationService.getUser();
-  }
-
+  
   getProducts(personal: boolean) {
     let httpAdress: string;
     if (personal)
@@ -34,8 +30,14 @@ export class DataService {
   createProduct(product: AddProduct) {
     return this.http.post(this.url, product);
   }
-  updateProduct(product: Products) {
-    return this.http.patch(this.url, product);
+  updateProduct(_product: Products) {
+    let product: ChangeProducts = new ChangeProducts;
+    product.id = _product.id;
+    product.designer = _product.designer;
+    product.about = _product.about;
+    product.cost = _product.cost;
+    product.name = _product.name;
+    return this.http.patch(this.url, _product);
   }
   deleteProduct(id: number) {
     return this.http.delete(this.url + '/' + id);
@@ -61,5 +63,11 @@ interface AddProduct {
   about: string;
 }
 
-
+export class ChangeProducts {
+  id: number;
+  name: string;
+  cost: number;
+  designer: string;
+  about: string;
+}
 

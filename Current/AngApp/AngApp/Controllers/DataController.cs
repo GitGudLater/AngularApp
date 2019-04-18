@@ -66,7 +66,7 @@ namespace AngApp.Controllers
 
         [Authorize]
         [HttpPatch]
-        public IActionResult UpdateProduct([FromBody]PhoneDto fullList)
+        public IActionResult UpdateProduct([FromBody]ChangePhoneDto fullList)
         {
             service.Change(fullList);
             return Ok();

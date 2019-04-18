@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
-import { forEach } from '@angular/router/src/utils/collection';
+import {IdentificationService } from './identification.service';
 
 @Component({
   selector: 'app-fetch-data',
@@ -17,9 +17,10 @@ export class FetchDataComponent {
   userSigned: boolean = false;
   username: string = null;
 
-  constructor(private dataService: DataService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { }
+  constructor(private identificationService: IdentificationService, private dataService: DataService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { }
 
   ngOnInit() {
+    //rename
     this.identification();
     this.loadProducts();
   }
@@ -34,7 +35,7 @@ export class FetchDataComponent {
 
   identification() {
     //тут будет проброс метода проверки залогиневшегося пользователя
-    this.dataService.getUser()
+    this.identificationService.getUser()
       .subscribe((name: string) => (this.username = name, this.signCheck()));
   }
 
@@ -77,9 +78,6 @@ export class FetchDataComponent {
   loadProducts() {
     this.dataService.getProducts(this.personal)
       .subscribe((data: Products[]) => this.products = data);
-    /*for (var i: number = 0; i < this.products.length; i++) {
-      this.productPositions[i] = i;
-    }*/
   }
   // сохранение данных
   save() {
@@ -133,3 +131,10 @@ export class AddProduct {
   about: string;
 }
 
+export class ChangeProducts {
+  id: number;
+  name: string;
+  cost: number;
+  designer: string;
+  about: string;
+}

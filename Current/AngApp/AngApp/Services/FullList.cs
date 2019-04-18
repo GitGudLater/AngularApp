@@ -15,6 +15,15 @@ namespace AngApp.Services
         public bool Favourite { get; set; }
     }
 
+    public class ChangePhoneDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Designer { get; set; }
+        public string About { get; set; }
+        public int Cost { get; set; }
+    }
+
     public class AddPhoneDto
     {
         public string Name { get; set; }

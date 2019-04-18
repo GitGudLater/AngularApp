@@ -24,10 +24,12 @@ namespace AngApp.Services
             }
         }
         //Postman
+
         public IEnumerable<PhoneDto> GetFullCatalog(string userName)
         {
             List<Product> products = db.Products.Include(x => x.ProductUsers).ToList();
             List<PhoneDto> fullList = new List<PhoneDto>();
+
             if (userName==null)
             {
                 int count = products.Count;
@@ -41,17 +43,20 @@ namespace AngApp.Services
             {
                 User user = db.Users.First(x => x.Email == userName);
                 if (user == null)
-                    throw new ServiceException("User not exist");
+                    throw new UserNotExistException("User not exist");
+
                 int count = products.Count;
                 for (int i = 0; i < count; i++)
                 {
                     fullList.Add(new PhoneDto() { Id = products[i].Id, Name = products[i].Name, Designer = products[i].Designer, About = products[i].About, Cost = products[i].Cost });
+
                     ProductUser relation = products[i].ProductUsers.FirstOrDefault(x => x.UserId == user.Id);
                     if (relation != null)
                         fullList[i].Favourite = true;
                     else
                         fullList[i].Favourite = false;
                 }
+
                 return fullList;
             }
         }
@@ -59,12 +64,17 @@ namespace AngApp.Services
         public IEnumerable<PhoneDto> GetFavoriteList(string userName)
         {
             if (userName==null)
-                throw new ServiceException("Incorrect username value(must be not null)");
+            {
+                throw new UserNameNullException("Username must be not null");
+            }
+
             List<Product> products = db.Products.Include(x => x.ProductUsers).ToList();
             List<PhoneDto> fullList = new List<PhoneDto>();
             User user = db.Users.First(x => x.Email == userName);
+
             if (user == null)
-                throw new ServiceException("Current user not exist");
+                throw new UserNotExistException("Current user not exist");
+
             int count = products.Count;
             for (int i = 0; i < count; i++)
             {
@@ -72,19 +82,29 @@ namespace AngApp.Services
                 if (relation != null)
                     fullList.Add(new PhoneDto() { Id = products[i].Id, Name = products[i].Name, Designer = products[i].Designer, About = products[i].About, Cost = products[i].Cost , Favourite = true});
             }
+
             return fullList;
         }
 
         public void ToggleFavoriteFlag(int id, string username)
         {
-            if(username==null)
-                throw new ServiceException("Incorrect username value(must be not null)");
+            if (username == null)
+            {
+                throw new UserNameNullException("Incorrect username value(must be not null)");
+            }
+
             Product product = db.Products.Include(x => x.ProductUsers).First(x => x.Id == id);
             if (product == null)
-                throw new ServiceException("Cuurent product not exist");
+            {
+                throw new ProductNotExistException("Cuurent product not exist");
+            }
+
             User currentuser = db.Users.First(x => x.Email == username);
             if (currentuser == null)
-                throw new ServiceException("Cuurent user not exist");
+            {
+                throw new UserNotExistException("Cuurent user not exist");
+            }
+
             ProductUser relation = product.ProductUsers.FirstOrDefault(x => x.UserId == currentuser.Id);
             if (relation != null)
             {
@@ -101,22 +121,37 @@ namespace AngApp.Services
             }
         }
 
-        public void Add(AddPhoneDto viewproduct)
+        public void Add(AddPhoneDto addInput)
         {
-            Product product = new Product() { Name = viewproduct.Name, Designer = viewproduct.Designer, Cost = viewproduct.Cost, About = viewproduct.About };
+            if(addInput == null)
+            {
+                throw new NullImportPhoneDTOException("Parameter must be not null before it will be added to database");
+            }
+
+            Product product = new Product() { Name = addInput.Name, Designer = addInput.Designer, Cost = addInput.Cost, About = addInput.About };
+
             db.Products.Add(product);
             db.SaveChanges();
         }
 
-        public void Change(PhoneDto viewproduct)
+        public void Change(ChangePhoneDto changeInput)
         {
-            Product product = db.Products.First(x => x.Id == viewproduct.Id);
+            if (changeInput == null)
+            {
+                throw new NullChangePhoneDTOException("Parameter must be not null before change");
+            }
+
+            Product product = db.Products.First(x => x.Id == changeInput.Id);
             if (product == null)
-                throw new ServiceException("Current product not exist");
-            product.Name = viewproduct.Name;
-            product.Designer = viewproduct.Designer;
-            product.Cost = viewproduct.Cost;
-            product.About = viewproduct.About;
+            {
+                throw new ProductNotExistException("Current product not exist");
+            }
+
+            product.Name = changeInput.Name;
+            product.Designer = changeInput.Designer;
+            product.Cost = changeInput.Cost;
+            product.About = changeInput.About;
+
             db.Entry(product).State = EntityState.Modified;
             db.SaveChanges();
         }
@@ -125,15 +160,45 @@ namespace AngApp.Services
         {
             Product product = db.Products.First(x => x.Id == id);
             if (product == null)
-                throw new ServiceException("Current product not exist");
+            {
+                throw new ProductNotExistException("Current product not exist");
+            }
+
             db.Products.Remove(product);
             db.SaveChanges();
         }
     }
 
-    class ServiceException:Exception
+    
+
+    class UserNotExistException:ApplicationException
     {
-        public ServiceException(string message): base(message)
+        public UserNotExistException(string message):base(message)
         { }
     }
+
+    class UserNameNullException:ApplicationException
+    {
+        public UserNameNullException(string message) : base(message)
+        { }
+    }
+
+    class ProductNotExistException : ApplicationException
+    {
+        public ProductNotExistException(string message) : base(message)
+        { }
+    }
+
+    class NullImportPhoneDTOException:ApplicationException
+    {
+        public NullImportPhoneDTOException(string message) : base(message)
+        { }
+    }
+
+    class NullChangePhoneDTOException : ApplicationException
+    {
+        public NullChangePhoneDTOException(string message) : base(message)
+        { }
+    }
+
 }
