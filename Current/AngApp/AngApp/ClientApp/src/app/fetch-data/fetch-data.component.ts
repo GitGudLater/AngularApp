@@ -21,7 +21,7 @@ export class FetchDataComponent {
 
   ngOnInit() {
     //rename
-    this.identification();
+    this.getUserName();
     this.loadProducts();
   }
 
@@ -33,13 +33,13 @@ export class FetchDataComponent {
     this.loadProducts();
   }
 
-  identification() {
+  getUserName() {
     //тут будет проброс метода проверки залогиневшегося пользователя
     this.identificationService.getUser()
-      .subscribe((name: string) => (this.username = name, this.signCheck()));
+      .subscribe((name: string) => (this.username = name, this.identificateUser()));
   }
 
-  signCheck() {
+  identificateUser() {
     if (this.username != null) {
       this.userSigned = true;
     }
@@ -53,24 +53,6 @@ export class FetchDataComponent {
   }
 
   toggle(id: number, p: Products) {
-   /* if (id < (this.products.length / 2)) {
-      for (var i: number = 0; i < this.products.length; i++) {
-        if (this.products[i].id == id) {
-          this.products[i].favourite = !this.products[i].favourite;
-          break;
-          //var object = forEach    Реализовать через форич
-          //var object = this.products.find((_product: Products) => _product.id == id);
-        }
-      }
-    }
-    else {
-      for (var i: number = this.products.length-1; i >= 0; i--) {
-        if (this.products[i].id == id) {
-          this.products[i].favourite = !this.products[i].favourite;
-          break;
-        }
-      }
-    }*/
     this.dataService.markProduct(id, p);
     this.dataService.getProducts(this.personal);
   }
