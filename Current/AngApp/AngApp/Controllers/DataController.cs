@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AngApp.EntityModels;
 using AngApp.Services;
+using AngApp.ViewModels.ProductModels;
 
 namespace AngApp.Controllers
 {
@@ -13,9 +14,9 @@ namespace AngApp.Controllers
     public class DataController : Controller
     {
 
-        IPhonesCatalog service;
+        IPhonesCatalogService service;
 
-        public DataController(IPhonesCatalog _service)
+        public DataController(IPhonesCatalogService _service)
         {
             service = _service;
         }

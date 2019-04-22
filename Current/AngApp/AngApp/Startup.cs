@@ -24,13 +24,10 @@ namespace AngApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IPhonesCatalog, PhonesCatalog>();
+            services.AddTransient<IPhonesCatalogService, PhonesCatalogService>();
 
-            /*string firstconnectionString = "Server=(localdb)\\mssqllocaldb;Database=angappdb;Trusted_Connection=True;";
-            services.AddDbContext<Models.FullContext>(options => options.UseSqlServer(firstconnectionString));*/
-
-            string secondconnectionString = "Server=(localdb)\\mssqllocaldb;Database=thirdfulldb;Trusted_Connection=True;";
-            services.AddDbContext<EntityModels.FullContext>(options => options.UseSqlServer(secondconnectionString));
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<EntityModels.FullContext>(options => options.UseSqlServer(connectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

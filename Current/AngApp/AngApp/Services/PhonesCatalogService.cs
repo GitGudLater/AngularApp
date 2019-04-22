@@ -4,15 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using AngApp.EntityModels;
 using Microsoft.EntityFrameworkCore;
+using AngApp.Services.Exceptions;
+using AngApp.ViewModels.ProductModels;
+
 
 
 namespace AngApp.Services
 {
-    public class PhonesCatalog : IPhonesCatalog
+    public class PhonesCatalogService : IPhonesCatalogService
     {
         FullContext db;
 
-        public PhonesCatalog(FullContext fullContext)
+        public PhonesCatalogService(FullContext fullContext)
         {
             db = fullContext;
             if (!db.Products.Any())
@@ -41,7 +44,7 @@ namespace AngApp.Services
             }
             else
             {
-                User user = db.Users.First(x => x.Email == userName);
+                User user = db.Users.FirstOrDefault(x => x.Email == userName);
                 if (user == null)
                     throw new UserNotExistException("User not exist");
 
@@ -93,13 +96,13 @@ namespace AngApp.Services
                 throw new UserNameNullException("Incorrect username value(must be not null)");
             }
 
-            Product product = db.Products.Include(x => x.ProductUsers).First(x => x.Id == id);
+            Product product = db.Products.Include(x => x.ProductUsers).FirstOrDefault(x => x.Id == id);
             if (product == null)
             {
                 throw new ProductNotExistException("Cuurent product not exist");
             }
 
-            User currentuser = db.Users.First(x => x.Email == username);
+            User currentuser = db.Users.FirstOrDefault(x => x.Email == username);
             if (currentuser == null)
             {
                 throw new UserNotExistException("Cuurent user not exist");
@@ -141,7 +144,7 @@ namespace AngApp.Services
                 throw new NullChangePhoneDTOException("Parameter must be not null before change");
             }
 
-            Product product = db.Products.First(x => x.Id == changeInput.Id);
+            Product product = db.Products.FirstOrDefault(x => x.Id == changeInput.Id);
             if (product == null)
             {
                 throw new ProductNotExistException("Current product not exist");
@@ -158,7 +161,7 @@ namespace AngApp.Services
 
         public void Delete(int id)
         {
-            Product product = db.Products.First(x => x.Id == id);
+            Product product = db.Products.FirstOrDefault(x => x.Id == id);
             if (product == null)
             {
                 throw new ProductNotExistException("Current product not exist");
@@ -169,36 +172,6 @@ namespace AngApp.Services
         }
     }
 
-    
-
-    class UserNotExistException:ApplicationException
-    {
-        public UserNotExistException(string message):base(message)
-        { }
-    }
-
-    class UserNameNullException:ApplicationException
-    {
-        public UserNameNullException(string message) : base(message)
-        { }
-    }
-
-    class ProductNotExistException : ApplicationException
-    {
-        public ProductNotExistException(string message) : base(message)
-        { }
-    }
-
-    class NullImportPhoneDTOException:ApplicationException
-    {
-        public NullImportPhoneDTOException(string message) : base(message)
-        { }
-    }
-
-    class NullChangePhoneDTOException : ApplicationException
-    {
-        public NullChangePhoneDTOException(string message) : base(message)
-        { }
-    }
+   
 
 }

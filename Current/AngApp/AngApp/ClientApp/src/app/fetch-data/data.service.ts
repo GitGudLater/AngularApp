@@ -27,8 +27,13 @@ export class DataService {
     }
   }
 
-  createProduct(product: AddProduct) {
-    return this.http.post(this.url, product);
+  createProduct(product: Products) {
+    let postedproduct: AddProduct = new AddProduct();
+    postedproduct.name = product.name;
+    postedproduct.about = product.about;
+    postedproduct.cost = product.cost;
+    postedproduct.designer = product.designer;
+    return this.http.post(this.url, postedproduct);
   }
   updateProduct(_product: Products) {
     let product: ChangeProducts = new ChangeProducts;
@@ -56,7 +61,7 @@ interface Products {
   favourite: boolean;
 }
 
-interface AddProduct {
+export class AddProduct {
   name: string;
   cost: number;
   designer: string;

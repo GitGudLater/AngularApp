@@ -83,13 +83,7 @@ export class FetchDataComponent {
     this.dataService.deleteProduct(p.id)
       .subscribe(data => this.loadProducts());
   }
-  add(p: Products) {
-    let postedproduct: AddProduct = new AddProduct();
-    postedproduct.name = p.name;
-    postedproduct.about = p.about;
-    postedproduct.cost = p.cost;
-    postedproduct.designer = p.designer;
-    this.dataService.createProduct(postedproduct);
+  add() {
     this.cancel();
     this.tableMode = false;
   }
@@ -113,7 +107,7 @@ export class AddProduct {
   about: string;
 }
 
-export class ChangeProducts {
+export class ChangeProduct {
   id: number;
   name: string;
   cost: number;
