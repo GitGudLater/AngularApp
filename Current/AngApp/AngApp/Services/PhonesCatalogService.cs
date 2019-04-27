@@ -26,7 +26,6 @@ namespace AngApp.Services
                 db.SaveChanges();
             }
         }
-        //Postman
 
         public IEnumerable<PhoneDto> GetFullCatalog(string userName)
         {
@@ -36,10 +35,11 @@ namespace AngApp.Services
             if (userName==null)
             {
                 int count = products.Count;
-                for (int i = 0; i < count; i++)
+                foreach(var product in products)
                 {
-                    fullList.Add(new PhoneDto() { Id = products[i].Id, Name = products[i].Name, Designer = products[i].Designer, About = products[i].About, Cost = products[i].Cost });
+                    fullList.Add(new PhoneDto() { Id = product.Id, Name = product.Name, Designer = product.Designer, About = product.About, Cost = product.Cost });
                 }
+
                 return fullList;
             }
             else
@@ -48,16 +48,17 @@ namespace AngApp.Services
                 if (user == null)
                     throw new UserNotExistException("User not exist");
 
-                int count = products.Count;
-                for (int i = 0; i < count; i++)
+                foreach(var product in products)
                 {
-                    fullList.Add(new PhoneDto() { Id = products[i].Id, Name = products[i].Name, Designer = products[i].Designer, About = products[i].About, Cost = products[i].Cost });
-
-                    ProductUser relation = products[i].ProductUsers.FirstOrDefault(x => x.UserId == user.Id);
+                    ProductUser relation = product.ProductUsers.FirstOrDefault(x => x.UserId == user.Id);
+                    bool checkForFavorite;
                     if (relation != null)
-                        fullList[i].Favourite = true;
+                        checkForFavorite = true;
                     else
-                        fullList[i].Favourite = false;
+                        checkForFavorite = false;
+
+                    fullList.Add(new PhoneDto() { Id = product.Id, Name = product.Name, Designer = product.Designer, About = product.About, Cost = product.Cost, Favourite=checkForFavorite });
+
                 }
 
                 return fullList;
@@ -78,12 +79,11 @@ namespace AngApp.Services
             if (user == null)
                 throw new UserNotExistException("Current user not exist");
 
-            int count = products.Count;
-            for (int i = 0; i < count; i++)
+            foreach(var product in products)
             {
-                ProductUser relation = products[i].ProductUsers.FirstOrDefault(x => x.UserId == user.Id);
+                ProductUser relation = product.ProductUsers.FirstOrDefault(x => x.UserId == user.Id);
                 if (relation != null)
-                    fullList.Add(new PhoneDto() { Id = products[i].Id, Name = products[i].Name, Designer = products[i].Designer, About = products[i].About, Cost = products[i].Cost , Favourite = true});
+                    fullList.Add(new PhoneDto() { Id = product.Id, Name = product.Name, Designer = product.Designer, About = product.About, Cost = product.Cost, Favourite = true });
             }
 
             return fullList;
