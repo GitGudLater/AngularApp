@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
-import {IdentificationService } from './identification.service';
+import { IdentificationService } from './identification.service';
+import { Products } from './models/Products';
 
 @Component({
   selector: 'app-fetch-data',
@@ -88,29 +89,4 @@ export class FetchDataComponent {
     this.tableMode = false;
   }
 
-}
-
-export class Products {
-  id: number;
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
-  favourite: boolean;
-}
-
-
-export class AddProduct {
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
-}
-
-export class ChangeProduct {
-  id: number;
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { Logg } from './models/Logg';
+import { Register } from './models/Register';
 
 
 @Injectable()
@@ -25,13 +27,3 @@ export class AccountService {
   }
 }
 
-interface Logg {
-  email: string;
-  password: string;
-}
-
-interface Register {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}

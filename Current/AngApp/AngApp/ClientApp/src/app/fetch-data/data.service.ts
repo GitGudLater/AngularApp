@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { AddProduct } from './models/AddProduct';
+import { ChangeProduct } from './models/ChangeProduct';
+import { Products } from './models/Products';
 
 @Injectable()
 export class DataService {
@@ -36,7 +39,7 @@ export class DataService {
     return this.http.post(this.url, postedproduct);
   }
   updateProduct(_product: Products) {
-    let product: ChangeProducts = new ChangeProducts;
+    let product: ChangeProduct = new ChangeProduct;
     product.id = _product.id;
     product.designer = _product.designer;
     product.about = _product.about;
@@ -52,27 +55,5 @@ export class DataService {
   }
 }
 
-interface Products {
-  id: number;
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
-  favourite: boolean;
-}
 
-export class AddProduct {
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
-}
-
-export class ChangeProducts {
-  id: number;
-  name: string;
-  cost: number;
-  designer: string;
-  about: string;
-}
 

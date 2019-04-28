@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AccountService } from './account.service';
+import { Logg } from './models/Logg';
+import { Register } from './models/Register';
 
 @Component({
   selector: 'app-account',
@@ -40,13 +42,3 @@ export class AccountComponent implements OnInit {
 
 }
 
-export class Logg {
-  public email: string;
-  public password: string;
-}
-
-export class Register {
-  public email: string;
-  public password: string;
-  public confirmPassword: string;
-}
