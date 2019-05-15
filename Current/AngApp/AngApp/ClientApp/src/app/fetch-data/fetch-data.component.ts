@@ -81,8 +81,9 @@ export class FetchDataComponent {
     this.tableMode = true;
   }
   delete(p: Products) {
-    this.dataService.deleteProduct(p.id)
-      .subscribe(data => this.loadProducts());
+    this.dataService.deleteProduct(p.id);
+    this.products.splice(this.products.findIndex(data => data==p),1);
+      //.subscribe(data => this.loadProducts());
   }
   add() {
     this.cancel();
