@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-
 namespace AngApp.EntityModels
 {
     public class FullContext:DbContext
@@ -14,9 +13,13 @@ namespace AngApp.EntityModels
 
         public DbSet<Product> Products { get; set; }
 
-        public FullContext(DbContextOptions<FullContext> options) : base(options)
+        public IConfiguration Configuration { get; }
+
+        public FullContext(DbContextOptions<FullContext> options, IConfiguration configuration) : base(options)
         {
+            Configuration = configuration;
             Database.EnsureCreated();
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,7 +40,9 @@ namespace AngApp.EntityModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=thirdfulldb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(ConfigurationExtensions.GetConnectionString(Configuration,"DefaultConnection"));
+            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=thirdfulldb;Trusted_Connection=True;");
         }
+
     }
 }
